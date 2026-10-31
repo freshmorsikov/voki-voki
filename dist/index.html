@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1b1738" />
+    <meta name="description" content="Бросьте кубик и получите волшебное задание." />
+    <title>Воки-воки</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <div class="stars" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Воки-воки — на главную">
+          <span class="brand-mark">✦</span>
+          <span>Воки-воки</span>
+        </a>
+        <span class="theme-label">Волшебная игра</span>
+      </header>
+
+      <section class="dice-screen screen active" id="dice-screen" aria-label="Бросок кубика">
+        <button class="dice-button" id="roll-button" type="button">
+          <span class="dice-shadow" aria-hidden="true"></span>
+          <span class="dice" aria-hidden="true">
+            <span class="pip p1"></span><span class="pip p2"></span><span class="pip p3"></span>
+            <span class="pip p4"></span><span class="pip p5"></span><span class="pip p6"></span>
+            <span class="pip p7"></span><span class="pip p8"></span><span class="pip p9"></span>
+          </span>
+          <span class="dice-action">Бросить кубик</span>
+        </button>
+      </section>
+
+      <section class="task-screen screen" id="task-screen" aria-live="polite" aria-labelledby="task-title">
+        <div class="result-die" id="result-die" data-value="1" role="img" aria-label="Результат броска: 1">
+          <span class="result-pip rp1"></span><span class="result-pip rp2"></span><span class="result-pip rp3"></span>
+          <span class="result-pip rp4"></span><span class="result-pip rp5"></span><span class="result-pip rp6"></span>
+          <span class="result-pip rp7"></span><span class="result-pip rp8"></span><span class="result-pip rp9"></span>
+        </div>
+        <article class="task-card">
+          <div class="card-glow" aria-hidden="true"></div>
+          <h1 id="task-title" tabindex="-1">Загружаем задание…</h1>
+          <p class="task-description" id="task-description"></p>
+          <div class="words-block">
+            <ul class="words-list" id="words-list"></ul>
+          </div>
+        </article>
+        <button class="again-button" id="again-button" type="button"><span>↺</span> Бросить ещё раз</button>
+      </section>
+    </main>
+    <p class="visually-hidden" id="announcer" aria-live="assertive"></p>
+    <script src="app.js"></script>
+  </body>
+</html>
