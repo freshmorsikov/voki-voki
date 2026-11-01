@@ -78,7 +78,7 @@ h1 em { color: #d9cdfd; font-style: normal; }
 .intro { max-width: 535px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.75; }
 
 .dice-button { position: relative; display: grid; justify-items: center; gap: 39px; margin-top: 60px; padding: 0 26px 20px; color: var(--ink); border: 0; background: transparent; cursor: pointer; touch-action: manipulation; }
-.dice-button:focus-visible, .again-button:focus-visible { outline: 3px solid #f8d582; outline-offset: 6px; }
+.dice-button:focus-visible, .again-button:focus-visible, .hard-button:focus-visible { outline: 3px solid #f8d582; outline-offset: 6px; }
 /* Six real faces share the same material as the task-result die. */
 .dice-button:is(.is-rolling, .is-showing-result) { cursor: default; }
 .dice-stage { --die-size: 134px; --half-die: 67px; position: relative; display: grid; place-items: center; width: 230px; height: 205px; perspective: 850px; }
@@ -180,3 +180,9 @@ h1 em { color: #d9cdfd; font-style: normal; }
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+.hard-button { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 12px; padding: 10px 15px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; background: rgba(255,255,255,.09); color: #fff; cursor: pointer; font-size: 13px; font-weight: 800; transition: background .2s ease, transform .2s ease; }
+.hard-button:hover { background: rgba(255,255,255,.17); transform: translateY(-2px); }
+.hard-button:disabled { opacity: .5; cursor: default; }
+.hard-die { flex: none; width: 22px; height: 22px; padding: 3px; border-radius: 6px; box-shadow: -2px 2px 0 #4b369c, -3px 4px 7px rgba(0,0,0,.25); }
+.hard-die .result-pip { width: 3px; height: 3px; }

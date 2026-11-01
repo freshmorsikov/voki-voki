@@ -1,4 +1,5 @@
 const rollButton = document.querySelector('#roll-button');
+const hardButton = document.querySelector('#hard-button');
 const dice = document.querySelector('#dice');
 const diceScreen = document.querySelector('#dice-screen');
 const taskScreen = document.querySelector('#task-screen');
@@ -89,10 +90,11 @@ function getAvailableCardIndexes(number, cards) {
   return cards.flatMap((_, index) => (usedIndexes.has(index) ? [] : [index]));
 }
 
-async function getNextCard() {
+async function getNextCard(onlyNumber = null) {
   const availableTasks = [];
 
   for (let number = 1; number <= 6; number += 1) {
+    if (onlyNumber && number !== onlyNumber) continue;
     const cards = await getCards(number);
     const indexes = getAvailableCardIndexes(number, cards);
     if (indexes.length) availableTasks.push({ number, cards, indexes });
@@ -125,6 +127,7 @@ async function rollDice() {
   if (rolling) return;
   rolling = true;
   rollButton.disabled = true;
+  hardButton.disabled = true;
   rollButton.setAttribute('aria-busy', 'true');
   rollButton.classList.add('is-rolling');
   announcer.textContent = 'Бросаем кубик…';
@@ -155,9 +158,35 @@ async function rollDice() {
   } finally {
     rolling = false;
     rollButton.disabled = false;
+    hardButton.disabled = false;
     rollButton.removeAttribute('aria-busy');
   }
 }
+
+hardButton.addEventListener('click', async () => {
+  if (rolling) return;
+  rolling = true;
+  hardButton.disabled = true;
+  rollButton.disabled = true;
+  hardButton.setAttribute('aria-busy', 'true');
+  try {
+    const nextCard = await getNextCard(6);
+    if (!nextCard) {
+      announcer.textContent = 'Сложные задания закончились. Обновите страницу, чтобы начать заново.';
+      return;
+    }
+    if (!usedCardIndexes.has(6)) usedCardIndexes.set(6, new Set());
+    usedCardIndexes.get(6).add(nextCard.index);
+    showCard(6, nextCard.card, nextCard.index);
+  } catch (error) {
+    announcer.textContent = 'Не удалось загрузить задание. Попробуйте ещё раз.';
+  } finally {
+    rolling = false;
+    hardButton.disabled = false;
+    rollButton.disabled = false;
+    hardButton.removeAttribute('aria-busy');
+  }
+});
 
 rollButton.addEventListener('click', rollDice);
 againButton.addEventListener('click', () => {
