@@ -79,22 +79,60 @@ h1 em { color: #d9cdfd; font-style: normal; }
 
 .dice-button { position: relative; display: grid; justify-items: center; gap: 39px; margin-top: 60px; padding: 0 26px 20px; color: var(--ink); border: 0; background: transparent; cursor: pointer; touch-action: manipulation; }
 .dice-button:focus-visible, .again-button:focus-visible { outline: 3px solid #f8d582; outline-offset: 6px; }
-.dice-button:hover .dice { transform: translateY(-11px) rotate(11deg); box-shadow: -15px 17px 0 #443094, -27px 30px 42px rgba(0,0,0,.46); }
-.dice-button:active .dice { transform: translateY(4px) rotate(-7deg) scale(.94); }
-.dice-button.is-rolling .dice { animation: tumble 1.1s cubic-bezier(.2,.78,.27,1); }
-.dice-button:is(.is-rolling, .is-showing-result) { pointer-events: none; }
-
-.dice { position: relative; display: grid; width: 134px; height: 134px; grid-template: repeat(3, 1fr) / repeat(3, 1fr); padding: 19px; border: 1px solid rgba(255,255,255,.78); border-radius: 28px; background: linear-gradient(145deg, #fffefa 3%, #d9cffd 100%); box-shadow: -12px 14px 0 #4b369c, -23px 27px 34px rgba(0,0,0,.38); transform: rotate(-8deg); transition: transform .24s ease, box-shadow .24s ease; }
-.pip { width: 16px; height: 16px; align-self: center; justify-self: center; border-radius: 50%; background: #34265e; box-shadow: inset 2px 2px 3px rgba(255,255,255,.28); }
-.pip { visibility: hidden; }
-.dice[data-value="1"] .p5,
-.dice[data-value="2"] :is(.p3, .p7),
-.dice[data-value="3"] :is(.p3, .p5, .p7),
-.dice[data-value="4"] :is(.p1, .p3, .p7, .p9),
-.dice[data-value="5"] :is(.p1, .p3, .p5, .p7, .p9),
-.dice[data-value="6"] :is(.p1, .p3, .p4, .p6, .p7, .p9) { visibility: visible; }
-.dice-button.is-rolling .pip { visibility: hidden; }
-.dice-shadow { position: absolute; bottom: 44px; width: 148px; height: 22px; border-radius: 50%; background: rgba(0,0,0,.35); filter: blur(9px); transform: translateY(20px); }
+/* Six real faces share the same material as the task-result die. */
+.dice-button:is(.is-rolling, .is-showing-result) { cursor: default; }
+.dice-stage { --die-size: 134px; --half-die: 67px; position: relative; display: grid; place-items: center; width: 230px; height: 205px; perspective: 850px; }
+.dice-lift { width: var(--die-size); height: var(--die-size); transform-style: preserve-3d; transition: transform .25s ease; }
+@media (hover: hover) {
+  .dice-button:not(:disabled):hover .dice-lift { transform: translateY(-10px); }
+}
+.dice-button:not(:disabled):active .dice-lift { transform: translateY(3px) scale(.96); }
+.dice { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transform: rotateX(-18deg) rotateY(-28deg) rotateZ(-8deg); }
+/* Closed chamfered corners: each triangle joins the cut edges of three faces.
+   Unlike crossing interior planes, this shell is solid from every viewing angle. */
+.dice { --corner: 12px; --dice-face-light: #fffefa; --dice-face-shade: #e5ddfa; --dice-corner-color: #e0d6f0; }
+/* Opaque ribs sit inside all twelve seams. Their depth avoids coplanar
+   overlap (z-fighting), while their ends extend behind the corner caps. */
+.dice-edge {
+  --edge-inset: 1.5px;
+  --edge-width: 4.242640687px;
+  position: absolute;
+  width: var(--edge-width);
+  height: calc(var(--die-size) - 2 * var(--corner) + 4px);
+  left: calc(50% - var(--edge-width) / 2);
+  top: calc(var(--corner) - 2px);
+  background: var(--dice-face-shade);
+  transform: translate3d(calc(var(--ex) * (var(--half-die) - var(--edge-inset))), calc(var(--ey) * (var(--half-die) - var(--edge-inset))), calc(var(--ez) * (var(--half-die) - var(--edge-inset)))) var(--edge-rotation);
+}
+/* Each larger backing triangle lies inside the cube, behind all three
+   corner seams. Increasing the cut by 4px recesses its plane by 4/sqrt(3)px;
+   its vertices still reach the adjoining faces, so the seams have no open gap.
+   Keep the visible cap at its exact size: scaling it outside the shell causes
+   overlapping silhouettes and shimmering at the face intersections. */
+.dice-corner { --corner-size: var(--corner); }
+.dice-corner-backing { --corner-size: calc(var(--corner) + 4px); }
+.dice-corner, .dice-corner-backing {
+  position: absolute;
+  width: calc(var(--corner-size) * 1.414213562);
+  height: calc(var(--corner-size) * 1.224744871);
+  left: calc(50% - var(--corner-size) * .707106781);
+  top: calc(50% - var(--corner-size) * .612372436);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: var(--dice-corner-color);
+  transform: translate3d(calc(var(--sx) * (var(--half-die) - var(--corner-size) * .25)), calc(var(--sy) * (var(--half-die) - var(--corner-size) * .25)), calc(var(--sz) * (var(--half-die) - var(--corner-size) * .5))) var(--corner-rotation);
+}
+.dice-face { position: absolute; inset: 0; display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr); padding: 20px; border: 0; border-radius: 0; clip-path: polygon(var(--corner) 0, calc(100% - var(--corner)) 0, 100% var(--corner), 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, var(--corner) 100%, 0 calc(100% - var(--corner)), 0 var(--corner)); background: linear-gradient(145deg, var(--dice-face-light) 3%, var(--dice-face-shade) 100%); box-shadow: inset 0 0 13px rgba(91,70,181,.18); backface-visibility: hidden; }
+.face-1 { transform: translateZ(var(--half-die)); }
+.face-2 { transform: rotateX(90deg) translateZ(var(--half-die)); }
+.face-3 { transform: rotateY(90deg) translateZ(var(--half-die)); }
+.face-4 { transform: rotateY(-90deg) translateZ(var(--half-die)); }
+.face-5 { transform: rotateX(-90deg) translateZ(var(--half-die)); }
+.face-6 { transform: rotateY(180deg) translateZ(var(--half-die)); }
+.pip { width: 16px; height: 16px; align-self: center; justify-self: center; border-radius: 50%; background: #34265e; box-shadow: inset 2px 2px 3px rgba(0,0,0,.3), 0 1px 1px rgba(255,255,255,.8); }
+.p1 { grid-area: 1 / 1; } .p3 { grid-area: 1 / 3; }
+.p4 { grid-area: 2 / 1; } .p5 { grid-area: 2 / 2; } .p6 { grid-area: 2 / 3; }
+.p7 { grid-area: 3 / 1; } .p9 { grid-area: 3 / 3; }
+.dice-shadow { position: absolute; bottom: -5px; width: 150px; height: 24px; border-radius: 50%; background: rgba(0,0,0,.4); filter: blur(10px); }
 .dice-action { display: inline-flex; align-items: center; font-family: Comfortaa, sans-serif; font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -.04em; }
 .roll-hint { margin: 19px 0 0; color: rgba(255,255,255,.46); font-size: 12px; }
 
@@ -121,7 +159,6 @@ h1 em { color: #d9cdfd; font-style: normal; }
 
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-@keyframes tumble { 0% { transform: rotate(-8deg) scale(1); } 30% { transform: translateY(-56px) rotate(250deg) scale(1.08); } 70% { transform: translateY(8px) rotate(600deg) scale(.95); } 100% { transform: rotate(712deg) scale(1); } }
 @keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 560px) {
@@ -131,7 +168,9 @@ h1 em { color: #d9cdfd; font-style: normal; }
   h1 { font-size: 35px; }
   .intro { font-size: 14px; }
   .dice-button { gap: 32px; margin-top: 51px; }
-  .dice { width: 118px; height: 118px; padding: 17px; border-radius: 24px; }
+  .dice-stage { --die-size: 118px; --half-die: 59px; width: 210px; height: 185px; }
+  .dice { --corner: 10px; }
+  .dice-face { padding: 18px; }
   .pip { width: 14px; height: 14px; }
   .result-die { width: 58px; height: 58px; }
   .task-card { border-radius: 23px; }
