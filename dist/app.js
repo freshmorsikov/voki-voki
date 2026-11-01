@@ -1,4 +1,5 @@
 const rollButton = document.querySelector('#roll-button');
+const dice = document.querySelector('#dice');
 const diceScreen = document.querySelector('#dice-screen');
 const taskScreen = document.querySelector('#task-screen');
 const resultDie = document.querySelector('#result-die');
@@ -10,6 +11,17 @@ const announcer = document.querySelector('#announcer');
 
 const cardCache = new Map();
 const usedCardIndexes = new Map();
+const ROLL_DURATION = 1100;
+const RESULT_DURATION = 1000;
+
+function wait(duration) {
+  return new Promise((resolve) => window.setTimeout(resolve, duration));
+}
+
+function setDiceValue(number) {
+  dice.dataset.value = number;
+  rollButton.setAttribute('aria-label', `Бросить кубик. Сейчас выпало ${number}`);
+}
 
 function randomNumber(max) {
   const numbers = new Uint32Array(1);
@@ -67,7 +79,7 @@ function showCard(number, card, index) {
 async function rollDice() {
   rollButton.classList.add('is-rolling');
   try {
-    const nextCard = await getNextCard();
+    const [nextCard] = await Promise.all([getNextCard(), wait(ROLL_DURATION)]);
     if (!nextCard) {
       announcer.textContent = 'Все уникальные слова закончились. Обновите страницу, чтобы начать заново.';
       rollButton.classList.remove('is-rolling');
@@ -78,13 +90,16 @@ async function rollDice() {
       usedCardIndexes.set(nextCard.number, new Set());
     }
     usedCardIndexes.get(nextCard.number).add(nextCard.index);
-    window.setTimeout(
-      () => showCard(nextCard.number, nextCard.card, nextCard.index),
-      1050,
-    );
+
+    setDiceValue(nextCard.number);
+    rollButton.classList.replace('is-rolling', 'is-showing-result');
+    announcer.textContent = `Выпало ${nextCard.number}.`;
+    await wait(RESULT_DURATION);
+    showCard(nextCard.number, nextCard.card, nextCard.index);
   } catch (error) {
     announcer.textContent = 'Не удалось загрузить задания. Попробуйте ещё раз.';
     rollButton.classList.remove('is-rolling');
+    rollButton.classList.remove('is-showing-result');
   }
 }
 
@@ -93,5 +108,6 @@ againButton.addEventListener('click', () => {
   taskScreen.classList.remove('active');
   diceScreen.classList.add('active');
   rollButton.classList.remove('is-rolling');
+  rollButton.classList.remove('is-showing-result');
   rollButton.focus();
 });
