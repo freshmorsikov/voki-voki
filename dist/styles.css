@@ -66,6 +66,7 @@ button { font: inherit; }
 
 .brand { display: inline-flex; gap: 10px; align-items: center; color: var(--ink); font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; }
 .brand-mark { display: grid; width: 31px; height: 31px; place-items: center; color: #fff5ca; border: 1px solid rgba(255,255,255,.32); border-radius: 9px; background: rgba(255,255,255,.08); font-size: 20px; }
+.topbar-actions { display: flex; align-items: center; gap: 24px; }
 .theme-label { color: rgba(255,255,255,.58); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 
 .screen { display: none; min-height: calc(100vh - 99px); align-items: center; flex-direction: column; justify-content: center; padding: 56px 0; text-align: center; }
@@ -78,7 +79,7 @@ h1 em { color: #d9cdfd; font-style: normal; }
 .intro { max-width: 535px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.75; }
 
 .dice-button { position: relative; display: grid; justify-items: center; gap: 39px; margin-top: 60px; padding: 0 26px 20px; color: var(--ink); border: 0; background: transparent; cursor: pointer; touch-action: manipulation; }
-.dice-button:focus-visible, .again-button:focus-visible, .hard-button:focus-visible { outline: 3px solid #f8d582; outline-offset: 6px; }
+.dice-button:focus-visible, .again-button:focus-visible, .reroll-button:focus-visible, .hard-button:focus-visible, .new-game-button:focus-visible { outline: 3px solid #f8d582; outline-offset: 6px; }
 /* Six real faces share the same material as the task-result die. */
 .dice-button:is(.is-rolling, .is-showing-result) { cursor: default; }
 .dice-stage { --die-size: 134px; --half-die: 67px; position: relative; display: grid; place-items: center; width: 230px; height: 205px; perspective: 850px; }
@@ -153,9 +154,9 @@ h1 em { color: #d9cdfd; font-style: normal; }
 .words-block { position: relative; margin-top: 30px; }
 .words-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
 .words-list li { color: #2d224d; font-family: Comfortaa, sans-serif; font-size: clamp(27px, 4.8vw, 44px); font-weight: 700; letter-spacing: -.055em; line-height: 1.22; }
-.again-button { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; padding: 13px 18px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; background: rgba(255,255,255,.09); color: #fff; cursor: pointer; font-size: 14px; font-weight: 800; transition: background .2s ease, transform .2s ease; }
-.again-button span { color: #b49cff; font-size: 20px; }
-.again-button:hover { background: rgba(255,255,255,.17); transform: translateY(-2px); }
+.again-button, .reroll-button { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; padding: 13px 18px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; background: rgba(255,255,255,.09); color: #fff; cursor: pointer; font-size: 14px; font-weight: 800; transition: background .2s ease, transform .2s ease; }
+.again-button span, .reroll-button span { color: #b49cff; font-size: 20px; }
+.again-button:hover, .reroll-button:hover { background: rgba(255,255,255,.17); transform: translateY(-2px); }
 
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
@@ -184,5 +185,63 @@ h1 em { color: #d9cdfd; font-style: normal; }
 .hard-button { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 12px; padding: 10px 15px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; background: rgba(255,255,255,.09); color: #fff; cursor: pointer; font-size: 13px; font-weight: 800; transition: background .2s ease, transform .2s ease; }
 .hard-button:hover { background: rgba(255,255,255,.17); transform: translateY(-2px); }
 .hard-button:disabled { opacity: .5; cursor: default; }
+.new-game-button { min-height: 44px; padding: 10px 18px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; background: rgba(255,255,255,.09); color: #fff; cursor: pointer; font-size: 13px; font-weight: 800; transition: background .2s ease, transform .2s ease; }
+.new-game-button:hover { background: rgba(255,255,255,.17); transform: translateY(-2px); }
+.new-game-button:disabled { opacity: .5; cursor: default; }
 .hard-die { flex: none; width: 22px; height: 22px; padding: 3px; border-radius: 6px; box-shadow: -2px 2px 0 #4b369c, -3px 4px 7px rgba(0,0,0,.25); }
 .hard-die .result-pip { width: 3px; height: 3px; }
+
+/* New game setup */
+.setup { width: min(100%, 1020px); margin: 0 auto; padding: 44px 0 64px; }
+.setup-back { display: inline-block; margin-bottom: 48px; color: var(--muted); font-size: 14px; text-decoration: none; }
+.setup-back:hover { color: var(--ink); }
+.setup h1 { margin: 12px 0; font-size: clamp(34px, 6vw, 52px); }
+.setup-intro { color: var(--muted); line-height: 1.6; }
+.team-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 32px; align-items: start; }
+.setup-card { display: flex; flex-direction: column; align-items: center; min-width: 0; padding: 20px 14px; border: 1px solid rgba(255,255,255,.15); border-radius: 16px; background: rgba(255,255,255,.06); }
+.team-crest { width: 100%; height: 190px; object-fit: contain; }
+.setup-card h2 { margin: 14px 0 18px; font-family: Comfortaa, sans-serif; font-size: 17px; text-align: center; overflow-wrap: anywhere; }
+.add-player-button, .player-form button, .start-button { min-height: 44px; padding: 10px 12px; border: 0; border-radius: 11px; background: #a994ff; color: #21183d; cursor: pointer; font-weight: 800; }
+.add-player-button { width: 100%; }
+.add-player-button:hover, .player-form button:hover, .start-button:hover:not(:disabled) { background: #c5b8ff; }
+.player-form { display: grid; gap: 8px; width: 100%; }
+.player-form[hidden], .add-player-button[hidden] { display: none; }
+.player-form input { width: 100%; min-width: 0; min-height: 44px; padding: 0 12px; border: 1px solid rgba(255,255,255,.25); border-radius: 11px; background: #292242; color: var(--ink); font: inherit; }
+.player-form input::placeholder { color: #aaa2b8; }
+.player-list { display: grid; gap: 6px; width: 100%; margin: 14px 0 0; padding: 0; list-style: none; }
+.player-list:empty { display: none; }
+.player-list li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 5px 0; overflow-wrap: anywhere; font-size: 14px; }
+.remove-button { flex: none; width: 28px; height: 28px; border: 0; border-radius: 8px; background: rgba(255,255,255,.08); color: #c8bddf; cursor: pointer; font-size: 20px; line-height: 1; }
+.remove-button:hover { color: white; background: rgba(255,255,255,.16); }
+.setup button:disabled { opacity: .45; cursor: default; }
+.setup button:focus-visible, .setup input:focus-visible, .setup-back:focus-visible { outline: 3px solid #f8d582; outline-offset: 3px; }
+.setup-message { color: #ffccb9; line-height: 1.5; }
+.start-button { display: block; width: min(100%, 340px); margin: 28px auto 0; }
+@media (max-width: 760px) {
+  .team-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  .setup-card { padding: 16px 10px; }
+  .team-crest { height: 145px; }
+  .setup-card h2 { font-size: 15px; }
+  .add-player-button { font-size: 12px; }
+}
+
+/* Current player */
+.turn-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(90px, .85fr); gap: 20px; width: min(100%, 360px); padding: 18px 20px; border: 1px solid rgba(244,199,107,.3); border-radius: 18px; background: rgba(255,255,255,.07); overflow-wrap: anywhere; }
+.turn-card[hidden] { display: none; }
+.turn-player-group { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; text-align: left; }
+.turn-label { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.turn-player { margin-top: 20px; font-family: Comfortaa, sans-serif; font-size: 22px; line-height: 1.3; }
+.turn-team-group { display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; padding-top: 18px; }
+.turn-crest { width: 100%; height: 90px; object-fit: contain; }
+.turn-team { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.3; }
+.turn-card-task { margin-bottom: 26px; }
+.dice-screen:has(.turn-card:not([hidden])) .dice-button { margin-top: 30px; }
+
+.again-button { justify-content: center; width: min(100%, 320px); min-height: 62px; padding: 14px 24px; border: 1px solid rgba(225, 197, 255, .8); border-radius: 999px; background: linear-gradient(160deg, #bd8bff 0%, #7a3cdb 52%, #a45ff4 100%); box-shadow: inset 0 2px 6px rgba(255,255,255,.3), 0 4px 0 #5725a5, 0 10px 28px rgba(132,65,232,.4); color: #fff; font-size: 18px; }
+.again-button span { color: #fff; font-size: 25px; line-height: 1; }
+.again-button:hover { background: linear-gradient(160deg, #cfabff 0%, #9055eb 52%, #b878ff 100%); }
+.reroll-button, .new-game-button { border-radius: 999px; background: rgba(255,255,255,.06); }
+.reroll-button { padding: 12px 22px; }
+.again-button + .reroll-button { margin-top: 18px; }

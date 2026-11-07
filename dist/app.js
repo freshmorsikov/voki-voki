@@ -1,5 +1,6 @@
 const rollButton = document.querySelector('#roll-button');
 const hardButton = document.querySelector('#hard-button');
+const newGameButton = document.querySelector('#new-game-button');
 const dice = document.querySelector('#dice');
 const diceScreen = document.querySelector('#dice-screen');
 const taskScreen = document.querySelector('#task-screen');
@@ -8,7 +9,69 @@ const taskTitle = document.querySelector('#task-title');
 const taskDescription = document.querySelector('#task-description');
 const wordsList = document.querySelector('#words-list');
 const againButton = document.querySelector('#again-button');
+const rerollButton = document.querySelector('#reroll-button');
 const announcer = document.querySelector('#announcer');
+
+const turnCards = [document.querySelector('#dice-turn'), document.querySelector('#task-turn')];
+let game = null;
+try {
+  const saved = JSON.parse(localStorage.getItem('game'));
+  if (saved && Array.isArray(saved.teams) && saved.teams.length >= 2 &&
+      saved.teams.every((team) => team && typeof team.name === 'string' && Array.isArray(team.players) &&
+        team.players.length > 0 && team.players.every((player) => player && typeof player.name === 'string')) &&
+      saved.turn && Number.isSafeInteger(saved.turn.number) && saved.turn.number > 0) game = saved;
+} catch (error) {
+  // The dice can still be used without a saved game.
+}
+
+function participantAt(number) {
+  const index = number - 1;
+  const team = game.teams[index % game.teams.length];
+  const player = team.players[Math.floor(index / game.teams.length) % team.players.length];
+  return { team, player };
+}
+
+function renderTurn() {
+  if (!game) return;
+  const current = participantAt(game.turn.number);
+  game.turn.teamId = current.team.id;
+  game.turn.playerId = current.player.id;
+  turnCards.forEach((card) => {
+    const label = document.createElement('span');
+    label.className = 'turn-label';
+    label.textContent = 'Ходит игрок';
+    const player = document.createElement('strong');
+    player.className = 'turn-player';
+    player.textContent = current.player.name;
+    const playerGroup = document.createElement('div');
+    playerGroup.className = 'turn-player-group';
+    const team = document.createElement('span');
+    team.className = 'turn-team';
+    team.textContent = current.team.name;
+    const teamGroup = document.createElement('div');
+    teamGroup.className = 'turn-team-group';
+    if (typeof current.team.image === 'string' && current.team.image) {
+      const crest = document.createElement('img');
+      crest.className = 'turn-crest';
+      crest.src = current.team.image;
+      crest.alt = '';
+      teamGroup.append(crest);
+    }
+    playerGroup.append(label, player, team);
+    card.replaceChildren(playerGroup, teamGroup);
+    card.hidden = false;
+  });
+  againButton.innerHTML = 'Следующий ход <span aria-hidden="true">→</span>';
+}
+
+function advanceTurn() {
+  if (!game) return;
+  game.turn.number += 1;
+  renderTurn();
+  try { localStorage.setItem('game', JSON.stringify(game)); } catch (error) {
+    announcer.textContent = 'Не удалось сохранить следующий ход в браузере.';
+  }
+}
 
 const cardCache = new Map();
 const usedCardIndexes = new Map();
@@ -128,6 +191,7 @@ async function rollDice() {
   rolling = true;
   rollButton.disabled = true;
   hardButton.disabled = true;
+  newGameButton.disabled = true;
   rollButton.setAttribute('aria-busy', 'true');
   rollButton.classList.add('is-rolling');
   announcer.textContent = 'Бросаем кубик…';
@@ -159,6 +223,7 @@ async function rollDice() {
     rolling = false;
     rollButton.disabled = false;
     hardButton.disabled = false;
+    newGameButton.disabled = false;
     rollButton.removeAttribute('aria-busy');
   }
 }
@@ -168,6 +233,7 @@ hardButton.addEventListener('click', async () => {
   rolling = true;
   hardButton.disabled = true;
   rollButton.disabled = true;
+  newGameButton.disabled = true;
   hardButton.setAttribute('aria-busy', 'true');
   try {
     const nextCard = await getNextCard(6);
@@ -184,12 +250,25 @@ hardButton.addEventListener('click', async () => {
     rolling = false;
     hardButton.disabled = false;
     rollButton.disabled = false;
+    newGameButton.disabled = false;
     hardButton.removeAttribute('aria-busy');
   }
 });
 
+newGameButton.addEventListener('click', () => {
+  window.location.href = 'new-game.html';
+});
+
 rollButton.addEventListener('click', rollDice);
+rerollButton.addEventListener('click', () => {
+  if (rolling) return;
+  taskScreen.classList.remove('active');
+  diceScreen.classList.add('active');
+  rollButton.classList.remove('is-showing-result');
+  rollDice();
+});
 againButton.addEventListener('click', () => {
+  advanceTurn();
   taskScreen.classList.remove('active');
   diceScreen.classList.add('active');
   rollButton.classList.remove('is-rolling');
@@ -197,4 +276,5 @@ againButton.addEventListener('click', () => {
   rollButton.focus();
 });
 
+renderTurn();
 setDiceValue(1);
