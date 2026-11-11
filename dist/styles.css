@@ -228,6 +228,13 @@ h1 em { color: #d9cdfd; font-style: normal; }
 }
 
 /* Current player */
+.scoreboard { width: min(100%, 300px); margin: 24px auto 0; padding: 12px 16px; border: 1px solid rgba(255,255,255,.15); border-radius: 16px; background: rgba(255,255,255,.06); border-spacing: 0; text-align: left; font-size: 13px; }
+.scoreboard[hidden] { display: none; }
+.scoreboard caption { padding-bottom: 8px; color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.scoreboard th, .scoreboard td { padding: 4px 0; overflow-wrap: anywhere; }
+.scoreboard thead th { color: var(--muted); font-size: 11px; }
+.scoreboard tbody th { font-weight: 600; }
+.scoreboard th:last-child, .scoreboard td:last-child { width: 55px; text-align: right; }
 .turn-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(90px, .85fr); gap: 20px; width: min(100%, 360px); padding: 18px 20px; border: 1px solid rgba(244,199,107,.3); border-radius: 18px; background: rgba(255,255,255,.07); overflow-wrap: anywhere; }
 .turn-card[hidden] { display: none; }
 .turn-player-group { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; text-align: left; }
@@ -245,3 +252,18 @@ h1 em { color: #d9cdfd; font-style: normal; }
 .reroll-button, .new-game-button, .hard-button { border-radius: 999px; background: rgba(255,255,255,.06); }
 .reroll-button { padding: 12px 22px; }
 .again-button + .reroll-button { margin-top: 18px; }
+
+.answer-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: min(100%, 480px); margin-top: 28px; }
+.answer-button { min-height: 76px; padding: 12px 14px; border: 1px solid; border-radius: 18px; color: #fff; cursor: pointer; font-weight: 800; line-height: 1.35; transition: background .2s ease, transform .2s ease; }
+.answer-button[hidden] { display: none; }
+.answer-six-buttons { display: contents; }
+.answer-six-buttons[hidden] { display: none; }
+.answer-centered { grid-column: 1 / -1; justify-self: center; width: calc((100% - 12px) / 2); }
+.answer-button span { display: block; margin-top: 5px; font-size: 13px; font-weight: 600; opacity: .85; }
+.answer-wrong { border-color: rgba(255,150,159,.55); background: rgba(167,65,79,.55); }
+.answer-correct { border-color: rgba(153,230,182,.55); background: rgba(48,133,85,.55); }
+.answer-wrong:hover { background: rgba(190,75,91,.75); }
+.answer-correct:hover { background: rgba(54,155,99,.75); }
+.answer-button:hover { transform: translateY(-2px); }
+.answer-button:focus-visible { outline: 3px solid #f8d582; outline-offset: 4px; }
+.answer-actions + .reroll-button { margin-top: 18px; }

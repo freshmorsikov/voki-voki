@@ -24,6 +24,12 @@
         </div>
       </header>
 
+      <table class="scoreboard" id="scoreboard" hidden>
+        <caption>Счёт</caption>
+        <thead><tr><th scope="col">Команда</th><th scope="col">Очки</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
       <section class="dice-screen screen active" id="dice-screen" aria-label="Бросок кубика">
         <div class="turn-card" id="dice-turn" hidden></div>
         <button class="dice-button" id="roll-button" type="button">
@@ -95,7 +101,14 @@
             <ul class="words-list" id="words-list"></ul>
           </div>
         </article>
-        <button class="again-button" id="again-button" type="button">Бросить ещё раз <span aria-hidden="true">↺</span></button>
+        <div class="answer-actions">
+          <button class="answer-button answer-wrong" id="wrong-button" type="button">Ответили неправильно <span>0 очков</span></button>
+          <button class="answer-button answer-correct" id="correct-button" type="button">Ответили верно <span id="correct-points">+1 очко</span></button>
+          <button class="answer-button answer-correct answer-five" type="button" data-points="5" hidden>Ответили верно <span>+5 очков</span></button>
+          <button class="answer-button answer-correct answer-five" type="button" data-points="4" hidden>Ответили верно <span>+4 очка</span></button>
+          <button class="answer-button answer-correct answer-five" type="button" data-points="3" hidden>Ответили верно <span>+3 очка</span></button>
+          <div class="answer-six-buttons" id="answer-six-buttons" hidden></div>
+        </div>
         <button class="reroll-button" id="reroll-button" type="button">Перебросить <span aria-hidden="true">↻</span></button>
       </section>
     </main>

@@ -8,9 +8,14 @@ const resultDie = document.querySelector('#result-die');
 const taskTitle = document.querySelector('#task-title');
 const taskDescription = document.querySelector('#task-description');
 const wordsList = document.querySelector('#words-list');
-const againButton = document.querySelector('#again-button');
+const wrongButton = document.querySelector('#wrong-button');
+const correctButton = document.querySelector('#correct-button');
+const correctPoints = document.querySelector('#correct-points');
+const fifthTaskButtons = document.querySelectorAll('.answer-five');
+const sixthTaskButtons = document.querySelector('#answer-six-buttons');
 const rerollButton = document.querySelector('#reroll-button');
 const announcer = document.querySelector('#announcer');
+const scoreboard = document.querySelector('#scoreboard');
 
 const turnCards = [document.querySelector('#dice-turn'), document.querySelector('#task-turn')];
 let game = null;
@@ -61,7 +66,22 @@ function renderTurn() {
     card.replaceChildren(playerGroup, teamGroup);
     card.hidden = false;
   });
-  againButton.innerHTML = 'Следующий ход <span aria-hidden="true">→</span>';
+}
+
+function renderScoreboard() {
+  if (!game) return;
+  const rows = game.teams.map((team) => {
+    const row = document.createElement('tr');
+    const name = document.createElement('th');
+    name.scope = 'row';
+    name.textContent = team.name;
+    const score = document.createElement('td');
+    score.textContent = Number.isFinite(team.score) ? team.score : 0;
+    row.append(name, score);
+    return row;
+  });
+  scoreboard.querySelector('tbody').replaceChildren(...rows);
+  scoreboard.hidden = false;
 }
 
 function advanceTurn() {
@@ -171,6 +191,25 @@ async function getNextCard(onlyNumber = null) {
 }
 
 function showCard(number, card, index) {
+  correctPoints.textContent = `+${number} ${number === 1 ? 'очко' : number < 5 ? 'очка' : 'очков'}`;
+  correctButton.hidden = number === 5 || number === 6;
+  fifthTaskButtons.forEach((button) => { button.hidden = number !== 5; });
+  sixthTaskButtons.hidden = number !== 6;
+  if (number === 6) {
+    sixthTaskButtons.replaceChildren(...card.words.map((_, index) => {
+      const points = 6 * (card.words.length - index) / card.words.length;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'answer-button answer-correct';
+      if (card.words.length % 2 === 0 && index === card.words.length - 1) button.classList.add('answer-centered');
+      button.append('Ответили верно');
+      const label = document.createElement('span');
+      label.textContent = `+${points} ${points === 1 ? 'очко' : points >= 2 && points <= 4 ? 'очка' : 'очков'}`;
+      button.append(label);
+      button.addEventListener('click', () => finishTurn(points));
+      return button;
+    }));
+  }
   resultDie.dataset.value = number;
   resultDie.setAttribute('aria-label', `Результат броска: ${number}`);
   taskTitle.textContent = card.task;
@@ -267,14 +306,25 @@ rerollButton.addEventListener('click', () => {
   rollButton.classList.remove('is-showing-result');
   rollDice();
 });
-againButton.addEventListener('click', () => {
+function finishTurn(points) {
+  if (game && points > 0) {
+    const team = participantAt(game.turn.number).team;
+    team.score = (Number.isFinite(team.score) ? team.score : 0) + points;
+    renderScoreboard();
+  }
   advanceTurn();
   taskScreen.classList.remove('active');
   diceScreen.classList.add('active');
   rollButton.classList.remove('is-rolling');
   rollButton.classList.remove('is-showing-result');
   rollButton.focus();
+}
+wrongButton.addEventListener('click', () => finishTurn(0));
+correctButton.addEventListener('click', () => finishTurn(Number(resultDie.dataset.value)));
+fifthTaskButtons.forEach((button) => {
+  button.addEventListener('click', () => finishTurn(Number(button.dataset.points)));
 });
 
 renderTurn();
+renderScoreboard();
 setDiceValue(1);
