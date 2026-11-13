@@ -112,7 +112,7 @@ startButton.addEventListener('click', () => {
   }
 });
 
-fetch(themeId === 'game-of-thrones' ? 'game-of-thrones/themes.json' : 'themes.json')
+fetch(`${themeId}/themes.json`)
   .then((response) => {
     if (!response.ok) throw new Error('Не удалось загрузить тему');
     return response.json();

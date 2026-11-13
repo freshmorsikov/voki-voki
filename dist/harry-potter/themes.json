@@ -1,0 +1,9 @@
+{
+  "theme": "Гарри Поттер",
+  "teams": [
+    { "name": "Гриффиндор", "image": "harry-potter/images/gryffindor.png" },
+    { "name": "Слизерин", "image": "harry-potter/images/slytherin.png" },
+    { "name": "Когтевран", "image": "harry-potter/images/ravenclaw.png" },
+    { "name": "Пуффендуй", "image": "harry-potter/images/hufflepuff.png" }
+  ]
+}

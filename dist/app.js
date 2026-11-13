@@ -60,7 +60,9 @@ function renderTurn() {
     if (typeof current.team.image === 'string' && current.team.image) {
       const crest = document.createElement('img');
       crest.className = 'turn-crest';
-      crest.src = current.team.image;
+      crest.src = themeId === 'harry-potter' && /^images\/(gryffindor|hufflepuff|ravenclaw|slytherin)\.png$/.test(current.team.image)
+        ? `harry-potter/${current.team.image}`
+        : current.team.image;
       crest.alt = '';
       teamGroup.append(crest);
     }
@@ -162,7 +164,7 @@ function randomNumber(max) {
 
 async function getCards(number) {
   if (!cardCache.has(number)) {
-    const response = await fetch(`${themeId === 'game-of-thrones' ? 'game-of-thrones/' : ''}${number}.json`);
+    const response = await fetch(`${themeId}/${number}.json`);
     if (!response.ok) throw new Error('Не удалось загрузить задания');
     const cards = await response.json();
     cardCache.set(number, cards);
