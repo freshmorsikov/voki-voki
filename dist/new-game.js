@@ -103,7 +103,7 @@ startButton.addEventListener('click', () => {
   };
   try {
     localStorage.setItem('game', JSON.stringify(game));
-    window.location.href = './';
+    window.location.href = 'game.html';
   } catch (error) {
     message.textContent = 'Не удалось сохранить игру в браузере. Проверьте настройки хранения данных и попробуйте снова.';
   }
