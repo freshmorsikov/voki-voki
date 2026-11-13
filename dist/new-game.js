@@ -1,3 +1,4 @@
+const themeId = new URLSearchParams(window.location.search).get('theme') === 'game-of-thrones' ? 'game-of-thrones' : 'harry-potter';
 const teamsContainer = document.querySelector('#teams');
 const startButton = document.querySelector('#start-game');
 const message = document.querySelector('#setup-message');
@@ -20,7 +21,7 @@ function renderTeam(team) {
 
   const image = document.createElement('img');
   image.className = 'team-crest';
-  image.src = team.image;
+  if (team.image) image.src = team.image;
   image.alt = '';
   const title = document.createElement('h2');
   title.textContent = team.name;
@@ -88,7 +89,8 @@ function renderTeam(team) {
     updateControls();
   });
 
-  card.append(image, title, addButton, form, list);
+  if (team.image) card.append(image);
+  card.append(title, addButton, form, list);
   teamsContainer.append(card);
 }
 
@@ -98,18 +100,19 @@ startButton.addEventListener('click', () => {
   const game = {
     version: 1,
     theme: theme.theme,
+    themeId,
     teams: participatingTeams,
     turn: { teamId: participatingTeams[0].id, playerId: participatingTeams[0].players[0].id, number: 1 },
   };
   try {
     localStorage.setItem('game', JSON.stringify(game));
-    window.location.href = 'game.html';
+    window.location.href = `game.html?theme=${themeId}`;
   } catch (error) {
     message.textContent = 'Не удалось сохранить игру в браузере. Проверьте настройки хранения данных и попробуйте снова.';
   }
 });
 
-fetch('themes.json')
+fetch(themeId === 'game-of-thrones' ? 'game-of-thrones/themes.json' : 'themes.json')
   .then((response) => {
     if (!response.ok) throw new Error('Не удалось загрузить тему');
     return response.json();

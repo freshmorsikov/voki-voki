@@ -1,3 +1,4 @@
+const themeId = new URLSearchParams(window.location.search).get('theme') === 'game-of-thrones' ? 'game-of-thrones' : 'harry-potter';
 const rollButton = document.querySelector('#roll-button');
 const hardButton = document.querySelector('#hard-button');
 const newGameButton = document.querySelector('#new-game-button');
@@ -24,6 +25,7 @@ try {
   if (saved && Array.isArray(saved.teams) && saved.teams.length >= 2 &&
       saved.teams.every((team) => team && typeof team.name === 'string' && Array.isArray(team.players) &&
         team.players.length > 0 && team.players.every((player) => player && typeof player.name === 'string')) &&
+      (saved.themeId || 'harry-potter') === themeId &&
       saved.turn && Number.isSafeInteger(saved.turn.number) && saved.turn.number > 0) game = saved;
 } catch (error) {
   // The dice can still be used without a saved game.
@@ -160,7 +162,7 @@ function randomNumber(max) {
 
 async function getCards(number) {
   if (!cardCache.has(number)) {
-    const response = await fetch(`${number}.json`);
+    const response = await fetch(`${themeId === 'game-of-thrones' ? 'game-of-thrones/' : ''}${number}.json`);
     if (!response.ok) throw new Error('Не удалось загрузить задания');
     const cards = await response.json();
     cardCache.set(number, cards);
@@ -295,7 +297,7 @@ hardButton.addEventListener('click', async () => {
 });
 
 newGameButton.addEventListener('click', () => {
-  window.location.href = 'new-game.html';
+  window.location.href = `new-game.html?theme=${themeId}`;
 });
 
 rollButton.addEventListener('click', rollDice);
