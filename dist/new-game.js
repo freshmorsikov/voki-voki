@@ -27,7 +27,8 @@ function shuffle(items) {
 }
 
 function updateControls() {
-  startButton.disabled = teams.filter((team) => team.players.length > 0).length < 2;
+  startButton.disabled = teams.filter((team) => team.players.length > 0).length < 2 ||
+    teams.some((team) => team.players.some((player) => !player.name.trim()));
 }
 
 function renderTeam(team, defaultPlayers, previousCard = null) {
@@ -92,6 +93,7 @@ function renderTeam(team, defaultPlayers, previousCard = null) {
   function updateNumbers() {
     list.querySelectorAll('.player-number').forEach((number, index) => {
       number.textContent = `№ ${index + 1}`;
+      number.parentElement.querySelector('.player-name').setAttribute('aria-label', `Имя игрока № ${index + 1} команды ${team.name}`);
     });
     addNumber.textContent = `№ ${team.players.length + 1}`;
     list.querySelectorAll('.remove-button').forEach((button) => {
@@ -116,14 +118,22 @@ function renderTeam(team, defaultPlayers, previousCard = null) {
     const item = document.createElement('li');
     const number = document.createElement('span');
     number.className = 'player-number';
-    const playerName = document.createElement('span');
+    const playerName = document.createElement('input');
+    playerName.type = 'text';
     playerName.className = 'player-name';
-    playerName.textContent = name;
+    playerName.value = name;
+    playerName.required = true;
     const remove = document.createElement('button');
     remove.type = 'button';
     remove.className = 'remove-button';
     remove.textContent = '×';
     remove.setAttribute('aria-label', `Удалить игрока ${name} из команды ${team.name}`);
+    playerName.addEventListener('input', () => {
+      player.name = playerName.value;
+      remove.setAttribute('aria-label', `Удалить игрока ${player.name.trim() || 'без имени'} из команды ${team.name}`);
+      updateNumbers();
+      updateControls();
+    });
     remove.addEventListener('click', () => {
       if (team.players.length <= 1) return;
       team.players.splice(team.players.indexOf(player), 1);
@@ -189,7 +199,8 @@ generateForm.addEventListener('submit', (event) => {
 
 startButton.addEventListener('click', () => {
   const participatingTeams = teams.filter((team) => team.players.length > 0);
-  if (participatingTeams.length < 2) return;
+  if (participatingTeams.length < 2 || participatingTeams.some((team) => team.players.some((player) => !player.name.trim()))) return;
+  participatingTeams.forEach((team) => team.players.forEach((player) => { player.name = player.name.trim(); }));
   const game = {
     version: 1,
     theme: theme.theme,
