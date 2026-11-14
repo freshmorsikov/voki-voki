@@ -1,9 +1,61 @@
 {
   "theme": "Гарри Поттер",
   "teams": [
-    { "name": "Гриффиндор", "image": "harry-potter/images/gryffindor.png" },
-    { "name": "Слизерин", "image": "harry-potter/images/slytherin.png" },
-    { "name": "Когтевран", "image": "harry-potter/images/ravenclaw.png" },
-    { "name": "Пуффендуй", "image": "harry-potter/images/hufflepuff.png" }
+    {
+      "name": "Гриффиндор",
+      "image": "harry-potter/images/gryffindor.png",
+      "players": [
+        "Гарри",
+        "Гермиона",
+        "Рон",
+        "Джинни",
+        "Невилл",
+        "Фред",
+        "Джордж",
+        "Минерва"
+      ]
+    },
+    {
+      "name": "Слизерин",
+      "image": "harry-potter/images/slytherin.png",
+      "players": [
+        "Драко",
+        "Северус",
+        "Том",
+        "Беллатриса",
+        "Нарцисса",
+        "Люциус",
+        "Регулус",
+        "Гораций"
+      ]
+    },
+    {
+      "name": "Когтевран",
+      "image": "harry-potter/images/ravenclaw.png",
+      "players": [
+        "Полумна",
+        "Чжоу",
+        "Филиус",
+        "Гаррик",
+        "Падма",
+        "Майкл",
+        "Пенелопа",
+        "Ровена"
+      ]
+    },
+    {
+      "name": "Пуффендуй",
+      "image": "harry-potter/images/hufflepuff.png",
+      "players": [
+        "Седрик",
+        "Нимфадора",
+        "Помона",
+        "Ньют",
+        "Ханна",
+        "Сьюзен",
+        "Эрни",
+        "Хельга"
+      ]
+    }
   ]
 }

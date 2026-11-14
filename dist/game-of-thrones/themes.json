@@ -1,14 +1,131 @@
 {
   "theme": "Игра престолов",
   "teams": [
-    { "name": "Старки", "image": "game-of-thrones/images/stark.png" },
-    { "name": "Ланнистеры", "image": "game-of-thrones/images/lannister.png" },
-    { "name": "Таргариены", "image": "game-of-thrones/images/targaryen.png" },
-    { "name": "Баратеоны", "image": "game-of-thrones/images/baratheon.png" },
-    { "name": "Аррены", "image": "game-of-thrones/images/arryn.png" },
-    { "name": "Талли", "image": "game-of-thrones/images/tully.png" },
-    { "name": "Мартеллы", "image": "game-of-thrones/images/martell.png" },
-    { "name": "Тиреллы", "image": "game-of-thrones/images/tyrell.png" },
-    { "name": "Грейджои", "image": "game-of-thrones/images/greyjoy.png" }
+    {
+      "name": "Старки",
+      "image": "game-of-thrones/images/stark.png",
+      "players": [
+        "Санса",
+        "Рикон",
+        "Нэд",
+        "Арья",
+        "Бран",
+        "Робб",
+        "Кейтилин",
+        "Джон"
+      ]
+    },
+    {
+      "name": "Ланнистеры",
+      "image": "game-of-thrones/images/lannister.png",
+      "players": [
+        "Серсея",
+        "Джейме",
+        "Тирион",
+        "Тайвин",
+        "Джоффри",
+        "Мирцелла",
+        "Томмен",
+        "Киван"
+      ]
+    },
+    {
+      "name": "Таргариены",
+      "image": "game-of-thrones/images/targaryen.png",
+      "players": [
+        "Дейенерис",
+        "Визерис",
+        "Рейгар",
+        "Эйрис",
+        "Эйгон",
+        "Рейнис",
+        "Джейхейрис",
+        "Эймон"
+      ]
+    },
+    {
+      "name": "Баратеоны",
+      "image": "game-of-thrones/images/baratheon.png",
+      "players": [
+        "Роберт",
+        "Станнис",
+        "Ренли",
+        "Ширен",
+        "Джендри",
+        "Селиса",
+        "Стеффон",
+        "Кассана"
+      ]
+    },
+    {
+      "name": "Аррены",
+      "image": "game-of-thrones/images/arryn.png",
+      "players": [
+        "Джон",
+        "Лиза",
+        "Робин",
+        "Артис",
+        "Харрольд",
+        "Ройс",
+        "Роннел",
+        "Родрик"
+      ]
+    },
+    {
+      "name": "Талли",
+      "image": "game-of-thrones/images/tully.png",
+      "players": [
+        "Эдмур",
+        "Хостер",
+        "Бринден",
+        "Кейтилин",
+        "Лиза",
+        "Минейса",
+        "Оскар",
+        "Элмо"
+      ]
+    },
+    {
+      "name": "Мартеллы",
+      "image": "game-of-thrones/images/martell.png",
+      "players": [
+        "Доран",
+        "Оберин",
+        "Эллария",
+        "Арианна",
+        "Тристан",
+        "Квентин",
+        "Элия",
+        "Обара"
+      ]
+    },
+    {
+      "name": "Тиреллы",
+      "image": "game-of-thrones/images/tyrell.png",
+      "players": [
+        "Оленна",
+        "Маргери",
+        "Лорас",
+        "Мейс",
+        "Уиллас",
+        "Гарлан",
+        "Алерия",
+        "Мина"
+      ]
+    },
+    {
+      "name": "Грейджои",
+      "image": "game-of-thrones/images/greyjoy.png",
+      "players": [
+        "Бейлон",
+        "Яра",
+        "Теон",
+        "Эурон",
+        "Виктарион",
+        "Аэрон",
+        "Алэннис",
+        "Родрик"
+      ]
+    }
   ]
 }

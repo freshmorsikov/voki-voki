@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=8" />
 </head>
 <body>
   <main class="game-shell">
@@ -18,13 +18,24 @@
       <span class="theme-label" id="theme-label">Новая игра</span>
     </header>
     <section class="setup">
-      <a class="setup-back" href="./">← На главную</a>
       <h1>Новая игра</h1>
+      <form id="generate-form" class="generate-form">
+        <label>Команд <input id="team-count" type="number" min="2" value="2" required /></label>
+        <label>Игроков в каждой <input id="player-count" type="number" min="1" value="2" required /></label>
+        <button class="start-button" type="submit" disabled>Сгенерировать</button>
+      </form>
       <div id="teams" class="team-list"></div>
       <p id="setup-message" class="setup-message" role="status" aria-live="polite"></p>
-      <button id="start-game" class="start-button" type="button" disabled>Стартуем</button>
+      <button id="start-game" class="start-button" type="button" hidden disabled>Стартуем</button>
     </section>
   </main>
-  <script src="new-game.js?v=4"></script>
+  <dialog id="team-dialog" class="team-dialog" aria-labelledby="team-dialog-title">
+    <div class="team-dialog-header">
+      <h2 id="team-dialog-title">Выберите команду</h2>
+      <button id="close-team-dialog" class="remove-button" type="button" aria-label="Закрыть">×</button>
+    </div>
+    <div id="available-teams" class="available-teams"></div>
+  </dialog>
+  <script src="new-game.js?v=12"></script>
 </body>
 </html>
