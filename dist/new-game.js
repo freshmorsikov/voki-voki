@@ -78,34 +78,32 @@ function renderTeam(team, defaultPlayers, previousCard = null) {
   list.className = 'player-list';
   list.setAttribute('aria-label', `Игроки команды ${team.name}`);
 
-  const addButton = document.createElement('button');
-  addButton.type = 'button';
-  addButton.className = 'add-player-button';
-  addButton.textContent = '+';
-  addButton.setAttribute('aria-label', `Добавить игрока в команду ${team.name}`);
-
-  const addCard = document.createElement('div');
+  const addCard = document.createElement('button');
+  addCard.type = 'button';
   addCard.className = 'add-player-card';
-  const addNumber = document.createElement('span');
-  addNumber.className = 'player-number';
-  addCard.append(addNumber, addButton);
+  addCard.setAttribute('aria-label', `Добавить игрока в команду ${team.name}`);
+  const addIcon = document.createElement('span');
+  addIcon.className = 'add-player-button';
+  addIcon.setAttribute('aria-hidden', 'true');
+  const addLabel = document.createElement('span');
+  addLabel.className = 'add-player-label';
+  addLabel.textContent = 'Новый игрок';
+  addCard.append(addLabel, addIcon);
 
   function updateNumbers() {
-    list.querySelectorAll('.player-number').forEach((number, index) => {
-      number.textContent = `№ ${index + 1}`;
-      number.parentElement.querySelector('.player-name').setAttribute('aria-label', `Имя игрока № ${index + 1} команды ${team.name}`);
+    list.querySelectorAll('.player-name').forEach((input, index) => {
+      input.setAttribute('aria-label', `Имя игрока № ${index + 1} команды ${team.name}`);
     });
-    addNumber.textContent = `№ ${team.players.length + 1}`;
     list.querySelectorAll('.remove-button').forEach((button) => {
       button.disabled = team.players.length <= 1;
       button.title = button.disabled ? 'В команде должен остаться хотя бы один игрок' : '';
     });
     const hasAvailablePlayers = defaultPlayers.some((name) => !team.players.some((player) => player.name === name));
-    addButton.disabled = !hasAvailablePlayers;
-    addButton.title = hasAvailablePlayers ? '' : 'Все персонажи уже добавлены';
+    addCard.disabled = !hasAvailablePlayers;
+    addCard.title = hasAvailablePlayers ? '' : 'Все персонажи уже добавлены';
   }
 
-  addButton.addEventListener('click', () => {
+  addCard.addEventListener('click', () => {
     const availablePlayers = defaultPlayers.filter((name) => !team.players.some((player) => player.name === name));
     if (!availablePlayers.length) return;
     const name = availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
@@ -116,8 +114,6 @@ function renderTeam(team, defaultPlayers, previousCard = null) {
     const player = { id: createId(), name };
     team.players.push(player);
     const item = document.createElement('li');
-    const number = document.createElement('span');
-    number.className = 'player-number';
     const playerName = document.createElement('input');
     playerName.type = 'text';
     playerName.className = 'player-name';
@@ -141,7 +137,7 @@ function renderTeam(team, defaultPlayers, previousCard = null) {
       updateNumbers();
       updateControls();
     });
-    item.append(number, playerName, remove);
+    item.append(playerName, remove);
     list.append(item);
     updateNumbers();
     updateControls();
