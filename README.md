@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="dist/images/voki-voki-transparent.png" alt="Воки-воки" width="280">
+  <img src="dist/images/voki-voki-transparent.webp" alt="Воки-воки" width="280">
 </p>
 
 Браузерная игра для компании: объясняйте слова, показывайте их жестами или рисуйте, а друзья пусть угадывают. Выбирайте любимый мир и соревнуйтесь командами.

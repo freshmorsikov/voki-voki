@@ -3,7 +3,7 @@
   "teams": [
     {
       "name": "Старки",
-      "image": "game-of-thrones/images/stark.png",
+      "image": "game-of-thrones/images/stark.webp",
       "players": [
         "Санса",
         "Рикон",
@@ -17,7 +17,7 @@
     },
     {
       "name": "Ланнистеры",
-      "image": "game-of-thrones/images/lannister.png",
+      "image": "game-of-thrones/images/lannister.webp",
       "players": [
         "Серсея",
         "Джейме",
@@ -31,7 +31,7 @@
     },
     {
       "name": "Таргариены",
-      "image": "game-of-thrones/images/targaryen.png",
+      "image": "game-of-thrones/images/targaryen.webp",
       "players": [
         "Дейенерис",
         "Визерис",
@@ -45,7 +45,7 @@
     },
     {
       "name": "Баратеоны",
-      "image": "game-of-thrones/images/baratheon.png",
+      "image": "game-of-thrones/images/baratheon.webp",
       "players": [
         "Роберт",
         "Станнис",
@@ -59,7 +59,7 @@
     },
     {
       "name": "Аррены",
-      "image": "game-of-thrones/images/arryn.png",
+      "image": "game-of-thrones/images/arryn.webp",
       "players": [
         "Джон",
         "Лиза",
@@ -73,7 +73,7 @@
     },
     {
       "name": "Талли",
-      "image": "game-of-thrones/images/tully.png",
+      "image": "game-of-thrones/images/tully.webp",
       "players": [
         "Эдмур",
         "Хостер",
@@ -87,7 +87,7 @@
     },
     {
       "name": "Мартеллы",
-      "image": "game-of-thrones/images/martell.png",
+      "image": "game-of-thrones/images/martell.webp",
       "players": [
         "Доран",
         "Оберин",
@@ -101,7 +101,7 @@
     },
     {
       "name": "Тиреллы",
-      "image": "game-of-thrones/images/tyrell.png",
+      "image": "game-of-thrones/images/tyrell.webp",
       "players": [
         "Оленна",
         "Маргери",
@@ -115,7 +115,7 @@
     },
     {
       "name": "Грейджои",
-      "image": "game-of-thrones/images/greyjoy.png",
+      "image": "game-of-thrones/images/greyjoy.webp",
       "players": [
         "Бейлон",
         "Яра",

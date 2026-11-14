@@ -3,7 +3,7 @@
   "teams": [
     {
       "name": "Гриффиндор",
-      "image": "harry-potter/images/gryffindor.png",
+      "image": "harry-potter/images/gryffindor.webp",
       "players": [
         "Гарри",
         "Гермиона",
@@ -17,7 +17,7 @@
     },
     {
       "name": "Слизерин",
-      "image": "harry-potter/images/slytherin.png",
+      "image": "harry-potter/images/slytherin.webp",
       "players": [
         "Драко",
         "Северус",
@@ -31,7 +31,7 @@
     },
     {
       "name": "Когтевран",
-      "image": "harry-potter/images/ravenclaw.png",
+      "image": "harry-potter/images/ravenclaw.webp",
       "players": [
         "Полумна",
         "Чжоу",
@@ -45,7 +45,7 @@
     },
     {
       "name": "Пуффендуй",
-      "image": "harry-potter/images/hufflepuff.png",
+      "image": "harry-potter/images/hufflepuff.webp",
       "players": [
         "Седрик",
         "Нимфадора",

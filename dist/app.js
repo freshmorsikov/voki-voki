@@ -60,9 +60,10 @@ function renderTurn() {
     if (typeof current.team.image === 'string' && current.team.image) {
       const crest = document.createElement('img');
       crest.className = 'turn-crest';
-      crest.src = themeId === 'harry-potter' && /^images\/(gryffindor|hufflepuff|ravenclaw|slytherin)\.png$/.test(current.team.image)
-        ? `harry-potter/${current.team.image}`
-        : current.team.image;
+      const image = current.team.image.replace(/\.png$/, '.webp');
+      crest.src = themeId === 'harry-potter' && /^images\/(gryffindor|hufflepuff|ravenclaw|slytherin)\.webp$/.test(image)
+        ? `harry-potter/${image}`
+        : image;
       crest.alt = '';
       teamGroup.append(crest);
     }
