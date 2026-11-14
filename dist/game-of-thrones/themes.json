@@ -1,9 +1,14 @@
 {
   "theme": "Игра престолов",
   "teams": [
-    { "name": "Старки", "image": "" },
-    { "name": "Ланнистеры", "image": "" },
-    { "name": "Таргариены", "image": "" },
-    { "name": "Баратеоны", "image": "" }
+    { "name": "Старки", "image": "game-of-thrones/images/stark.png" },
+    { "name": "Ланнистеры", "image": "game-of-thrones/images/lannister.png" },
+    { "name": "Таргариены", "image": "game-of-thrones/images/targaryen.png" },
+    { "name": "Баратеоны", "image": "game-of-thrones/images/baratheon.png" },
+    { "name": "Аррены", "image": "game-of-thrones/images/arryn.png" },
+    { "name": "Талли", "image": "game-of-thrones/images/tully.png" },
+    { "name": "Мартеллы", "image": "game-of-thrones/images/martell.png" },
+    { "name": "Тиреллы", "image": "game-of-thrones/images/tyrell.png" },
+    { "name": "Грейджои", "image": "game-of-thrones/images/greyjoy.png" }
   ]
 }
